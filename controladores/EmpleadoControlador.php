@@ -1,32 +1,32 @@
 <?php
 
-require_once '../entidades/Usuario.php';
+require_once '../entidades/Empleado.php';
 require_once '../interfaces/IApiUsable.php';
 
-class UsuarioControlador implements IApiUsable
+class EmpleadoControlador implements IApiUsable
 {
     public function TraerUno($request, $response, $args)
     {
-        $idUsuario = $args['idUsuario'];
-        $usuario = Usuario::TraerUnUsuario($idUsuario);
-        if($usuario != null)
+        $idEmpleado = $args['idEmpleado'];
+        $empleado = Usuario::TraerUnUsuario($idEmpleado);
+        if($empleado != null)
         {
-            $response->getBody()->write(json_encode($usuario));
+            $response->getBody()->write(json_encode($empleado));
         }
         else
         {
-            $response->getBody()->write("No se encontro el usuario.</br>");
+            $response->getBody()->write("No se encontro el empleado.</br>");
         }
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function CargarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
-        $usuario = Usuario::ConstruirUsuario($parametros['nombreUsuario'], $parametros['contraseña'], $parametros['tipo'], $parametros['estado']);
+        $empleado = Empleado::ConstruirEmpleado($parametros['idUsuario'], $parametros['idSector'], $parametros['tipo'], $parametros['nombreEmpleado'], $parametros['estado']);
 
-        if($usuario->CargarUnUsuario() > 0)
+        if($empleado->CargarUnEmpleado() > 0)
         {
-            $payload = json_encode(array('mensaje' => 'Se cargo el usuario.', 'nombreUsuario' => $parametros['nombreUsuario'], 'contraseña' => $parametros['contraseña'], 'tipo' => $parametros['tipo'], 'estado' => $parametros['estado']));
+            $payload = json_encode(array('mensaje' => 'Se cargo el empleado.', 'idUsuario' => $parametros['idUsuario'], 'idSector' => $parametros['idSector'], 'tipo' => $parametros['tipo'], 'nombreEmpleado' => $parametros['nombreEmpleado'], 'estado' => $parametros['estado']));
             $response->getBody()->write($payload);
         }
         else

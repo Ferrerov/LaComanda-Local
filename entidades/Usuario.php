@@ -22,17 +22,6 @@ class Usuario{
         return $usuario;
     }
 
-    public function MostrarDatos()
-    {
-        return '----------------------------------------------</br>
-            Nombre de usuario:' . $this->nombreUsuario . '</br>
-            Contraseña: '. $this->contraseña . '</br>
-            Tipo de usuario: ' . $this->tipo . '</br>
-            Estado del usuario: ' . $this->estado . '</br>
-            Fecha de creacion: ' . $this->fechaCreacion . '</br>
-            ----------------------------------------------</br>';
-    }
-
     public static function TraerUnUsuario($idUsuario)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
@@ -66,42 +55,6 @@ class Usuario{
         $consulta = $objetoAccesoDato->RetornarConsulta("UPDATE usuarios SET estado = 'INACTIVO' WHERE idUsuario = '$idUsuario'");
         $consulta->execute();
         return $consulta->rowCount();
-    }
-
-    public static function ExisteNombreUsuario($nombreUsuario)
-    {
-        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombreUsuario from usuarios where nombreUsuario = '$nombreUsuario'");
-        $consulta->execute();
-        return $consulta->fetchObject();
-    }
-
-    public static function ValidarInput($nombreUsuario, $contraseña, $tipo, $estado)
-    {
-        $resultado = '';
-
-        if(!preg_match('/^[a-zA-Z0-9]+$/', $nombreUsuario))
-        {
-            $resultado = $resultado . 'Nombre de usuario no valido, debe ser alfanumerico.</br>';
-        }
-        if(Usuario::ExisteNombreUsuario($nombreUsuario) != false)
-        {
-            $resultado = $resultado . 'El nombre de usuario ya esta en uso.</br>';
-        }
-        if($contraseña == '')
-        {
-            $resultado = $resultado . 'La contraseña no puede estar vacia.</br>';
-        }
-        if(strtoupper($tipo) != 'SOCIO' && strtoupper($tipo) != 'EMPLEADO')
-        {
-            $resultado = $resultado . 'El usuario debe ser tipo SOCIO/EMPLEADO.</br>';
-        }
-        if(strtoupper($estado) != 'ACTIVO' && strtoupper($estado) != 'INACTIVO')
-        {
-            $resultado = $resultado . 'El estado debe ser ACTIVO/INACTIVO.</br>';
-        }
-
-        return $resultado;
     }
 }
 
