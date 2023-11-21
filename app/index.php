@@ -10,6 +10,7 @@ use Slim\Routing\RouteCollectorProxy;
 use Slim\Routing\RouteContext;
 
 require __DIR__ . '/../vendor/autoload.php';
+require_once '../controladores/LoginControlador.php';
 require_once '../controladores/UsuarioControlador.php';
 require_once '../controladores/EmpleadoControlador.php';
 require_once '../controladores/ProductoControlador.php';
@@ -17,6 +18,7 @@ require_once '../controladores/MesaControlador.php';
 require_once '../controladores/PedidoControlador.php';
 require_once '../middlewares/AuthMiddleware.php';
 require_once '../middlewares/ValidadorMiddleware.php';
+require_once '../utilidades/AutentificadorJWT.php';
 
 
 // Instantiate App
@@ -37,6 +39,10 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosUsuario');
     $group->delete('[/]', \UsuarioControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarAdmin');
+$app->group('/login', function (RouteCollectorProxy $group) {
+  $group->get('[/]', \LoginControlador::class . ':LeerLog')->add(\AuthMiddleware::class . ':VerificarAdmin');;
+  $group->post('[/]', \LoginControlador::class . ':Logear')->add(\ValidadorMiddleware::class . ':ValidarCredencialesUsuario');
+  });
 $app->group('/empleados', function (RouteCollectorProxy $group) {
     $group->get('/{idEmpleado}', \EmpleadoControlador::class . ':TraerUno');
     $group->get('[/]', \EmpleadoControlador::class . ':TraerTodos');
@@ -61,5 +67,78 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoControlador::class . ':CargarUno');
     $group->delete('[/]', \PedidoControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarEmpleado');
+
+
+    //testJWT
+    /*$app->group('/jwt', function (RouteCollectorProxy $group) {
+
+        $group->post('/crearToken', function (Request $request, Response $response) {    
+          $parametros = $request->getParsedBody();
+      
+          $usuario = $parametros['usuario'];
+          $perfil = $parametros['perfil'];
+          $alias = $parametros['alias'];
+      
+          $datos = array('usuario' => $usuario, 'perfil' => $perfil, 'alias' => $alias);
+      
+          $token = AutentificadorJWT::CrearToken($datos);
+          $payload = json_encode(array('jwt' => $token));
+      
+          $response->getBody()->write($payload);
+          return $response
+            ->withHeader('Content-Type', 'application/json');
+        });
+      
+        $group->get('/devolverPayLoad', function (Request $request, Response $response) {
+          $header = $request->getHeaderLine('Authorization');
+          $token = trim(explode("Bearer", $header)[1]);
+      
+          try {
+            $payload = json_encode(array('payload' => AutentificadorJWT::ObtenerPayLoad($token)));
+          } catch (Exception $e) {
+            $payload = json_encode(array('error' => $e->getMessage()));
+          }
+      
+          $response->getBody()->write($payload);
+          return $response
+            ->withHeader('Content-Type', 'application/json');
+        });
+      
+        $group->get('/devolverDatos', function (Request $request, Response $response) {
+          $header = $request->getHeaderLine('Authorization');
+          $token = trim(explode("Bearer", $header)[1]);
+      
+          try {
+            $payload = json_encode(array('datos' => AutentificadorJWT::ObtenerData($token)));
+          } catch (Exception $e) {
+            $payload = json_encode(array('error' => $e->getMessage()));
+          }
+      
+          $response->getBody()->write($payload);
+          return $response
+            ->withHeader('Content-Type', 'application/json');
+        });
+      
+        $group->get('/verificarToken', function (Request $request, Response $response) {
+          $header = $request->getHeaderLine('Authorization');
+          $token = trim(explode("Bearer", $header)[1]);
+          $esValido = false;
+      
+          try {
+            AutentificadorJWT::verificarToken($token);
+            $esValido = true;
+          } catch (Exception $e) {
+            $payload = json_encode(array('error' => $e->getMessage()));
+          }
+      
+          if ($esValido) {
+            $payload = json_encode(array('valid' => $esValido));
+          }
+      
+          $response->getBody()->write($payload);
+          return $response
+            ->withHeader('Content-Type', 'application/json');
+        });
+      });*/
 
 $app->run();

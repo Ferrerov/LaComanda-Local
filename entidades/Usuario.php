@@ -31,6 +31,15 @@ class Usuario{
         return $usuarioBuscado;
     }
 
+    public static function TraerUnUsuarioPorNombreUsuario($nombreUsuario)
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $objetoAccesoDato->RetornarConsulta("select idUsuario, nombreUsuario, contraseña, tipo from usuarios where nombreUsuario = '$nombreUsuario' and estado = 'ACTIVO'");
+        $consulta->execute();
+        $usuarioBuscado = $consulta->fetchObject('usuario');
+        return $usuarioBuscado;
+    }
+
     public static function TraerTodosLosUsuarios()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();

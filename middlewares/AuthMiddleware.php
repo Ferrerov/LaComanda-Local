@@ -8,7 +8,7 @@ include_once '../db/AccesoDatos.php';
 
 class AuthMiddleware
 {
-    public function VerificarAdmin(Request $request, RequestHandler $handler): Response
+    /*public function VerificarAdmin(Request $request, RequestHandler $handler): Response
     {   
         if($request->getMethod() === 'GET')
         {
@@ -64,6 +64,58 @@ class AuthMiddleware
         $consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombreUsuario from usuarios where nombreUsuario = '$nombreUsuario' and contraseña = '$contraseña' and tipo = '$tipo' and estado != 'INACTIVO'");
         $consulta->execute();
         return $consulta->fetchObject();
+    }*/
+
+    public function VerificarAdmin(Request $request, RequestHandler $handler): Response
+    {
+        $response = new Response();
+        $datos = AuthMiddleware::ObtenerDatosJWT($request);
+        if($datos != false)
+        {
+            if($datos->tipo == 'SOCIO')
+            {
+                $response = $handler->handle($request);
+            }
+            else
+            {
+                $response->getBody()->write(json_encode(array("error" => "El usuario no es socio.")));
+            }
+        }   
+        else
+        {
+            $response->getBody()->write(json_encode(array("error" => "Se requiere el token JWT para acceder")));
+        }
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    public function VerificarEmpleado(Request $request, RequestHandler $handler): Response
+    {
+        $response = new Response();
+        $datos = AuthMiddleware::ObtenerDatosJWT($request);
+        if($datos != false)
+        {
+            if($datos->tipo == 'EMPLEADO' || $datos->tipo == 'SOCIO')
+            {
+                $response = $handler->handle($request);
+            }
+            else
+            {
+                $response->getBody()->write(json_encode(array("error" => "El usuario no es socio ni empleado.")));
+            }
+        }   
+        else
+        {
+            $response->getBody()->write(json_encode(array("error" => "Se requiere el token JWT para acceder")));
+        }
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    private static function ObtenerDatosJWT($request)
+    {
+        $header = $request->getHeaderLine('authorization');
+        if (!empty($header)) {
+            $token = trim(explode("Bearer", $header)[1]);
+            return AutentificadorJWT::ObtenerData($token);
+        }
+        return false;
     }
 }
 

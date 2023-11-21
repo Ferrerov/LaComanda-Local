@@ -92,6 +92,26 @@ class ValidadorMiddleware
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    
+    public function ValidarCredencialesUsuario(Request $request, RequestHandler $handler): Response
+    {
+        $parametros = $request->getParsedBody();
+
+        if(ValidadorMiddleware::CredencialesValidas($parametros['usuario'], $parametros['contraseña']))
+        {
+            $response = $handler->handle($request);
+        }
+        else
+        {
+            $response = new Response();
+            $payload = json_encode(array('mensaje' => 'No se encontro el usuario, verifique el usuario y contraseña.'));
+
+            $response->getBody()->write($payload);
+        }
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
     private static function ExisteNombreUsuario($nombreUsuario)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
@@ -106,6 +126,15 @@ class ValidadorMiddleware
         $consulta->execute();
         return $consulta->fetchObject();
     }
+    private static function CredencialesValidas($nombreUsuario, $contraseña)
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombreUsuario from usuarios where nombreUsuario = '$nombreUsuario' and contraseña = '$contraseña' and estado != 'INACTIVO'");
+
+        $consulta->execute();
+        return $consulta->fetchObject();
+    }
+
 }
 
 ?>
