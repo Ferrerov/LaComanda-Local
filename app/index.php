@@ -36,7 +36,7 @@ $app->addErrorMiddleware(true, true, true);
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('/{idUsuario}', \UsuarioControlador::class . ':TraerUno');
     $group->get('[/]', \UsuarioControlador::class . ':TraerTodos');
-    $group->post('[/]', \UsuarioControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosUsuario');
+    $group->post('[/]', \UsuarioControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosUsuarioCarga');
     $group->delete('[/]', \UsuarioControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarAdmin');
 $app->group('/login', function (RouteCollectorProxy $group) {
@@ -46,27 +46,30 @@ $app->group('/login', function (RouteCollectorProxy $group) {
 $app->group('/empleados', function (RouteCollectorProxy $group) {
     $group->get('/{idEmpleado}', \EmpleadoControlador::class . ':TraerUno');
     $group->get('[/]', \EmpleadoControlador::class . ':TraerTodos');
-    $group->post('[/]', \EmpleadoControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosEmpleado');
+    $group->post('[/]', \EmpleadoControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosEmpleadoCarga');
     $group->delete('[/]', \EmpleadoControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarAdmin');
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('/{idProducto}', \ProductoControlador::class . ':TraerUno');
     $group->get('[/]', \ProductoControlador::class . ':TraerTodos');
-    $group->post('[/]', \ProductoControlador::class . ':CargarUno');
+    $group->post('[/]', \ProductoControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosProductoCarga');
     $group->delete('[/]', \ProductoControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarEmpleado');
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('/{idMesa}', \MesaControlador::class . ':TraerUno');
     $group->get('[/]', \MesaControlador::class . ':TraerTodos');
-    $group->post('[/]', \MesaControlador::class . ':CargarUno');
+    $group->post('[/]', \MesaControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosMesaCarga');
     $group->delete('[/]', \MesaControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarEmpleado');
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
-    $group->get('/{idPedido}', \PedidoControlador::class . ':TraerUno');
-    $group->get('[/]', \PedidoControlador::class . ':TraerTodos');
-    $group->post('[/]', \PedidoControlador::class . ':CargarUno');
-    $group->delete('[/]', \PedidoControlador::class . ':BorrarUno');
-    })->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->get('/descargar', \PedidoControlador::class . ':DescargarListado');
+    $group->post('/cargar', \PedidoControlador::class . ':CargarListado');
+    $group->get('/{idPedido}', \PedidoControlador::class . ':TraerUno')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->get('[/]', \PedidoControlador::class . ':TraerTodos')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->post('[/]', \PedidoControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosPedidoCarga')->add(\AuthMiddleware::class . ':VerificarMozo')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->put('[/]', \PedidoControlador::class . ':ModificarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosPedidoModificacion')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->delete('[/]', \PedidoControlador::class . ':BorrarUno')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    })/**/;
 
 
     //testJWT

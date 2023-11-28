@@ -2,40 +2,44 @@
 
 require_once '../entidades/Mesa.php';
 require_once '../interfaces/IApiUsable.php';
+require_once '../utilidades/GestorConsultas.php';
 
 class MesaControlador implements IApiUsable
 {
     public function TraerUno($request, $response, $args)
     {
         $idMesa = $args['idMesa'];
-        $mesa = Mesa::TraerUnaMesa($idMesa);
+        $mesa = GestorConsultas::TraerUnaMesa($idMesa);
         if($mesa != null)
         {
-            $response->getBody()->write(json_encode($mesa));
+            $payload = json_encode($mesa);
         }
         else
         {
-            $response->getBody()->write("No se encontro la mesa.</br>");
+            $payload = json_encode(array('mensaje' => 'No se encontro la mesa.'));
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function CargarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
 
-        $mesa = Mesa::ConstruirMesa($parametros['idTrabajador'], $parametros['nombreCliente'],$parametros['estado']);
+        $codigo = self::GenerarCodigoAlfanumerico();
+        $mesa = Mesa::ConstruirMesa($parametros['idEmpleado'], $codigo,$parametros['nombreCliente'],$parametros['estado']);
 
-        echo("Cargando una mesa...</br>");
-        if($mesa->CargarUnaMesa() > 0)
+        $idMesa = GestorConsultas::CargarUnaMesa($mesa);
+        $mesa->idMesa = $idMesa;
+        if($idMesa > 0)
         {
-            $response->getBody()->write("Se cargo la mesa:</br>");
-            $response->getBody()->write($mesa->MostrarDatos());
+            $payload = array_merge(array('mensaje' => 'Mesa cargada correctamente'),(array)$mesa);
+            $payload = json_encode($payload);
         }
         else
         {
-            $response->getBody()->write("No se pudo cargar la mesa.</br>");
+            $payload = json_encode(array('mensaje' => 'No se pudo cargar la mesa.'));
         }
-     
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function ModificarUno($request, $response, $args)
@@ -48,16 +52,26 @@ class MesaControlador implements IApiUsable
     }
     public function TraerTodos($request, $response, $args)
     {
-        $mesas = Mesa::TraerTodasLasMesas();
+        $mesas = GestorConsultas::TraerTodasLasMesas();
         if($mesas != null)
         {
-            $response->getBody()->write(json_encode($mesas));
+            $payload = json_encode($mesas);
         }
         else
         {
-            $response->getBody()->write("No se encontro ninguna mesa.</br>");
+            $payload = json_encode(array('mensaje' => 'No se encontraron mesas.'));
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public static function GenerarCodigoAlfanumerico()
+    {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        do{
+            $codigo = substr(str_shuffle($caracteres), 0, 5);
+        }while(GestorConsultas::ExisteCodigo($codigo) != false);
+        return $codigo;
     }
 }
 

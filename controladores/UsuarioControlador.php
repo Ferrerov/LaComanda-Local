@@ -8,33 +8,36 @@ class UsuarioControlador implements IApiUsable
     public function TraerUno($request, $response, $args)
     {
         $idUsuario = $args['idUsuario'];
-        $usuario = Usuario::TraerUnUsuario($idUsuario);
+        $usuario = GestorConsultas::TraerUnUsuario($idUsuario);
         if($usuario != null)
         {
-            $response->getBody()->write(json_encode($usuario));
+            $payload = json_encode($usuario);
         }
         else
         {
-            $response->getBody()->write("No se encontro el usuario.</br>");
+            $payload = json_encode(array('mensaje' => 'No se encontro el usuario.'));
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function CargarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
-        $usuario = Usuario::ConstruirUsuario($parametros['nombreUsuario'], $parametros['contraseña'], $parametros['tipo'], $parametros['estado']);
+        $usuario = Usuario::ConstruirUsuario($parametros['nombreUsuario'], $parametros['contraseña'], $parametros['nombre'], $parametros['apellido'], $parametros['tipo'], $parametros['estado']);
 
-        if($usuario->CargarUnUsuario() > 0)
+        $idUsuario = GestorConsultas::CargarUnUsuario($usuario);
+        $usuario->idUsuario = $idUsuario;
+        if($idUsuario > 0)
         {
-            $payload = json_encode(array('mensaje' => 'Se cargo el usuario.', 'nombreUsuario' => $parametros['nombreUsuario'], 'contraseña' => $parametros['contraseña'], 'tipo' => $parametros['tipo'], 'estado' => $parametros['estado']));
-            $response->getBody()->write($payload);
+            $payload = array_merge(array('mensaje' => 'Usuario cargado correctamente'),(array)$usuario);
+            $payload = json_encode($payload);
         }
         else
         {
             $payload = json_encode(array('mensaje' => 'No se pudo cargar el usuario.'));
-            $response->getBody()->write($payload);
         }
-     
+
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function ModificarUno($request, $response, $args)
@@ -44,27 +47,29 @@ class UsuarioControlador implements IApiUsable
     public function BorrarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
-        if(Usuario::BorrarUnUsuario($parametros['idUsuario']) > 0)
+        if(GestorConsultas::BorrarUnUsuario($parametros['idUsuario']) > 0)
         {
-            $response->getBody()->write("Se borro el usuario de id: {$parametros['idUsuario']}.</br>");
+            $payload = json_encode(array('mensaje' => "Se borro el usuario de id: {$parametros['idUsuario']}"));
         }
         else
         {
-            $response->getBody()->write("No se encontro ningun usuario.</br>");
+            $payload = json_encode(array('mensaje' => 'No se pudo cargar el usuario.'));
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function TraerTodos($request, $response, $args)
     {
-        $usuarios = Usuario::TraerTodosLosUsuarios();
+        $usuarios = GestorConsultas::TraerTodosLosUsuarios();
         if($usuarios != null)
         {
-            $response->getBody()->write(json_encode($usuarios));
+            $payload = json_encode($usuarios);
         }
         else
         {
-            $response->getBody()->write("No se encontro ningun usuario.</br>");
+            $payload = json_encode(array('mensaje' => 'No se encontraron usuarios.'));  
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

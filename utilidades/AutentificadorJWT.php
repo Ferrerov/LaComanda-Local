@@ -6,19 +6,20 @@ use Firebase\JWT\Key;
 class AutentificadorJWT
 {
     private static $claveSecreta = 'T3sT$JWT';
-    private static $tipoEncriptacion = ['HS256'];
+    private static $tipoEncriptacion = 'HS256';
 
     public static function CrearToken($datos)
     {
         $ahora = time();
         $payload = array(
             'iat' => $ahora,
-            'exp' => $ahora + (60000),
+            //'exp' => $ahora + (60000),
+            'exp' => $ahora + strtotime("+100 years"), //token expira en 100 años con motivo de testeo
             'aud' => self::Aud(),
             'data' => $datos,
             'app' => "Test JWT"
         );
-        return JWT::encode($payload, self::$claveSecreta, 'HS256');
+        return JWT::encode($payload, self::$claveSecreta, self::$tipoEncriptacion);
     }
 
     public static function VerificarToken($token)
@@ -55,7 +56,7 @@ class AutentificadorJWT
     {
         return JWT::decode(
             $token, new Key(
-            self::$claveSecreta, 'HS256')
+            self::$claveSecreta, self::$tipoEncriptacion)
         )->data;
     }
 

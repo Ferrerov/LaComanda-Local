@@ -2,64 +2,48 @@
 
 class GestorCsv
 {
-    public static function GuardarCsv($array, $ruta)
+    public static function GuardarCsv($datos, $ruta)
     {
-        $primerDato = true;
-        $datos = '';
         try {
-            $archivo = fopen($ruta, "a");
-            if ($archivo) {
-                foreach ($array as $unCampo) {
-                    if($primerDato)
-                    {
-                        $datos = $unCampo;
-                        $primerDato = false;
-                    }
-                    else
-                    {
-                        $datos = $datos . "," . $unCampo;
-                        $primerDato = false;
-                    }
-                }
-                $datos =  $datos . PHP_EOL;
-                fwrite($archivo, $datos);
+            fputcsv($ruta, array_keys((array)$datos[0]));
+
+            // Datos de los datos
+            foreach ($datos as $pedido) {
+                fputcsv($ruta, (array)$pedido);
             }
-        } catch (\Throwable) {
-            echo "Error";
+
+            rewind($ruta);
+            $archivo = stream_get_contents($ruta);
+            fclose($ruta);
+
+        } catch (\Throwable $e) {
+            echo $e->getMessage();
         }finally{
-            fclose($archivo);
+            return $archivo;
         }
     }
 
-    /*
-    public static function LeerCsv($ruta)
-    {
-        $primerDato = true;
-        $datos = '';
+    public static function LeerCsv($ruta){
+        $archivo = fopen($ruta, "r");
+        $array = array();
         try {
-            $archivo = fopen($ruta, "r");
-            if ($archivo) {
-                foreach ($array as $unCampo) {
-                    if($primerDato)
-                    {
-                        $datos = $unCampo;
-                        $primerDato = false;
-                    }
-                    else
-                    {
-                        $datos = $datos . "," . $unCampo;
-                        $primerDato = false;
-                    }
+
+            while (!feof($archivo)) {
+                $unaLinea = fgets($archivo);
+                
+                if (!empty($unaLinea)) {
+                    $unaLinea = str_replace(PHP_EOL, "", $unaLinea);
+                    $arrayLinea = explode(",", $unaLinea);
+                    array_push($array, $arrayLinea);
                 }
-                $datos =  $datos . PHP_EOL;
-                fwrite($archivo, $datos);
             }
-        } catch (\Throwable) {
-            echo "Error";
+        } catch (\Throwable $e) {
+            echo $e->getMessage();
         }finally{
             fclose($archivo);
+            return $array;
         }
-    }*/
+    }
 
 }
 

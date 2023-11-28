@@ -8,34 +8,36 @@ class ProductoControlador implements IApiUsable
     public function TraerUno($request, $response, $args)
     {
         $idProducto = $args['idProducto'];
-        $producto = Producto::TraerUnProducto($idProducto);
+        $producto = GestorConsultas::TraerUnProducto($idProducto);
         if($producto != null)
         {
-            $response->getBody()->write(json_encode($producto));
+            $payload = json_encode($producto);
         }
         else
         {
-            $response->getBody()->write("No se encontro el producto.</br>");
+            $payload = json_encode(array('mensaje' => 'No se encontro el producto.'));
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function CargarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
 
-        $producto = Producto::ConstruirProducto($parametros['idSector'], $parametros['nombre'], $parametros['precio']);
+        $producto = Producto::ConstruirProducto($parametros['idSector'], $parametros['nombreProducto'], $parametros['precio']);
 
-        echo("Cargando un producto...</br>");
-        if($producto->CargarUnProducto() > 0)
-        {
-            $response->getBody()->write("Se cargo el producto:</br>");
-            $response->getBody()->write($producto->MostrarDatos());
+        $idProducto = GestorConsultas::CargarUnProducto($producto);
+        $producto->idProducto = $idProducto;
+        if($idProducto > 0)
+        { 
+           $payload = array_merge(array('mensaje' => 'Producto cargado correctamente'),(array)$producto);
+           $payload = json_encode($payload);
         }
         else
         {
-            $response->getBody()->write("No se pudo cargar el producto.</br>");
-        }
-     
+            $payload = json_encode(array('mensaje' => 'No se pudo cargar el producto.'));
+        }   
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
     public function ModificarUno($request, $response, $args)
@@ -48,15 +50,16 @@ class ProductoControlador implements IApiUsable
     }
     public function TraerTodos($request, $response, $args)
     {
-        $productos = Producto::TraerTodosLosProductos();
+        $productos = GestorConsultas::TraerTodosLosProductos();
         if($productos != null)
         {
-            $response->getBody()->write(json_encode($productos));
+            $payload = json_encode($productos);
         }
         else
         {
-            $response->getBody()->write("No se encontro ningun producto.</br>");
+            $payload = json_encode(array('mensaje' => 'No se encontraron productos.'));
         }
+        $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
