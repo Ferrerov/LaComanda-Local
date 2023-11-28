@@ -6,8 +6,6 @@ class GestorCsv
     {
         try {
             fputcsv($ruta, array_keys((array)$datos[0]));
-
-            // Datos de los datos
             foreach ($datos as $pedido) {
                 fputcsv($ruta, (array)$pedido);
             }

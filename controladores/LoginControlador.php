@@ -25,15 +25,6 @@ class LoginControlador
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
-/*
-    public function LeerLog($request, $response, $args)
-    {
-        $log = GestorCsv::LeerCsv('../archivos/ingresos.log');
-        $payload = json_encode($log);
-        $response->getBody()->write($payload);
-        return $response->withHeader('Content-Type', 'application/json');
-    }
-    */
 }
 
 ?>

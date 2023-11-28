@@ -4,7 +4,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
-//include_once '../db/AccesoDatos.php';
 include_once '../utilidades/GestorConsultas.php';
 
 class ValidadorMiddleware
@@ -180,20 +179,12 @@ class ValidadorMiddleware
             if (!preg_match('/^[0-9]+$/', $parametros['idMesa']) || GestorConsultas::ExisteId($parametros['idMesa'], 'idMesa', 'mesas') == false) {
                 $resultado = array_merge($resultado, array('errorIdMesa' => 'No existe la mesa ingresada.'));
             }
-            /*if(!preg_match('/^[0-9]+$/', $parametros['idEmpleado']) || GestorConsultas::ExisteId($parametros['idEmpleado'], 'idEmpleado', 'empleados') == false)
-        {
-            $resultado = array_merge($resultado, array('errorIdEmpleado' => 'No existe el empleado ingresado.'));
-        }*/
             if (!preg_match('/^[0-9]+$/', $parametros['idProducto']) || GestorConsultas::ExisteId($parametros['idProducto'], 'idProducto', 'productos') == false) {
                 $resultado = array_merge($resultado, array('errorIdProducto' => 'No existe el producto ingresado.'));
             }
             if (strtoupper($parametros['estado']) != 'PENDIENTE' && strtoupper($parametros['estado']) != 'EN PREPARACION' && strtoupper($parametros['estado']) != 'LISTO PARA SERVIR' && strtoupper($parametros['estado']) != 'ENTREGADO') {
                 $resultado = array_merge($resultado, array('errorEstadoPedido' => 'Los estados del pedido deben ser PENDIENTE/EN PREPARACION/LISTO PARA SERVIR/ENTREGADO.'));
             }
-            /*if(!ValidadorMiddleware::ValidarFecha($parametros['tiempoEstimado'], 'H:i:s'))
-        {
-            $resultado = array_merge($resultado, array('errorTiempoEstimado' => "El tiempo estimado del pedido debe tener formato 'H:i:s.'"));
-        }*/
         } catch (ErrorException $e) {
             $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
             $resultado = array_merge($resultado, array('errorDetalle' => $e->getMessage()));
@@ -218,23 +209,18 @@ class ValidadorMiddleware
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         });
 
-        try
-        {
+        try {
             $idPedido = $parametros['idPedido'];
             $estado = $parametros['estado'];
-            if(isset($idPedido) && isset($estado))
-            {
+            if (isset($idPedido) && isset($estado)) {
                 $request = $request->withAttribute('tipoModificacion', 'cambioEstado');
-                if(isset($parametros['tiempoEstimado']))
-                {
+                if (isset($parametros['tiempoEstimado'])) {
                     $request = $request->withAttribute('tipoModificacion', 'cambioEstadoTiempo');
-                    if(!ValidadorMiddleware::ValidarFecha($parametros['tiempoEstimado'], 'H:i:s'))
-                    {
+                    if (!ValidadorMiddleware::ValidarFecha($parametros['tiempoEstimado'], 'H:i:s')) {
                         $resultado = array_merge($resultado, array('errorTiempoEstimado' => "El tiempo estimado del pedido debe tener formato 'H:i:s.'"));
                     }
                 }
-                if(isset($parametros['idMesa']) && isset($parametros['idProducto']))
-                {
+                if (isset($parametros['idMesa']) && isset($parametros['idProducto'])) {
                     $request = $request->withAttribute('tipoModificacion', 'cambioDatos');
                     if (!preg_match('/^[0-9]+$/', $parametros['idMesa']) || GestorConsultas::ExisteId($parametros['idMesa'], 'idMesa', 'mesas') == false) {
                         $resultado = array_merge($resultado, array('errorIdMesa' => 'No existe la mesa ingresada.'));
@@ -250,14 +236,10 @@ class ValidadorMiddleware
                     $resultado = array_merge($resultado, array('errorEstadoPedido' => 'Los estados del pedido deben ser PENDIENTE/EN PREPARACION/LISTO PARA SERVIR/ENTREGADO.'));
                 }
             }
-        }
-        catch(ErrorException $e)
-        {
+        } catch (ErrorException $e) {
             $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
             $resultado = array_merge($resultado, array('errorDetalle' => $e->getMessage()));
-        }
-        finally
-        {
+        } finally {
             if (count($resultado) != 0) {
                 $response = new Response();
                 $payload = json_encode($resultado);

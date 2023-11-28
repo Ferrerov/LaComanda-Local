@@ -47,7 +47,6 @@ class PedidoControlador implements IApiUsable
         $idUsuario = $request->getAttribute('idUsuario');
         $pedidoActualizado = 0;
 
-        //$usuario = GestorConsultas::TraerUnUsuario($idUsuario);
         $pedido = GestorConsultas::TraerUnPedidoPorIdPedidoIdUsuario($parametros['idPedido'], $idUsuario);
         if($pedido != null)
         {

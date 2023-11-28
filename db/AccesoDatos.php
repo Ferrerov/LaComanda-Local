@@ -34,7 +34,6 @@ class AccesoDatos
         return self::$ObjetoAccesoDatos;        
     }
  
-     // Evita que el objeto se pueda clonar
     public function __clone()
     { 
         trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR); 
