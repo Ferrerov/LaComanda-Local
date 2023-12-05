@@ -5,6 +5,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
 include_once '../utilidades/GestorConsultas.php';
+include_once '../utilidades/Validador.php';
 
 class ValidadorMiddleware
 {
@@ -17,7 +18,7 @@ class ValidadorMiddleware
         });
 
         try {
-            if (!preg_match('/^[a-zA-Z0-9]+$/', $parametros['nombreUsuario'])) {
+            if (Validador::ValidarAlfanumerico($parametros['nombreUsuario'])) {
                 $resultado = array_merge($resultado, array('errorNombre' => 'Nombre de usuario no valido, debe ser alfanumerico.'));
             }
             if (GestorConsultas::ExisteNombreUsuario($parametros['nombreUsuario']) != false) {
@@ -63,10 +64,12 @@ class ValidadorMiddleware
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         });
         try {
-            if (!preg_match('/^[0-9]+$/', $parametros['idUsuario']) || GestorConsultas::ExisteId($parametros['idUsuario'], 'idUsuario', 'empleados') != false) {
+            if(!Validador::ValidarNumerico($parametros['idUsuario']) || GestorConsultas::ExisteId($parametros['idUsuario'], 'idUsuario', 'empleados') != false)  
+            /*(!preg_match('/^[0-9]+$/', $parametros['idUsuario']) || GestorConsultas::ExisteId($parametros['idUsuario'], 'idUsuario', 'empleados') != false)*/{
                 $resultado = array_merge($resultado, array('errorIdUsuario' => 'El usuario ya tiene asignado un trabajador.'));
             }
-            if (!preg_match('/^[0-9]+$/', $parametros['idUsuario']) || GestorConsultas::ExisteId($parametros['idUsuario'], 'idUsuario', 'usuarios') == false) {
+            if(Validador::ValidarNumerico($parametros['idUsuario']) || GestorConsultas::ExisteId($parametros['idUsuario'], 'idUsuario', 'usuarios') == false)
+             /*(!preg_match('/^[0-9]+$/', $parametros['idUsuario']) || GestorConsultas::ExisteId($parametros['idUsuario'], 'idUsuario', 'usuarios') == false)*/ {
                 $resultado = array_merge($resultado, array('errorIdUsuario' => 'No existe el usuario ingresado.'));
             }
             if (!preg_match('/^[0-9]+$/', $parametros['idSector']) || GestorConsultas::ExisteId($parametros['idSector'], 'idSector', 'sectores') == false) {
@@ -111,11 +114,47 @@ class ValidadorMiddleware
             if (GestorConsultas::TraerProductoPorNombre($parametros['nombreProducto']) != false) {
                 $resultado = array_merge($resultado, array('errorNombreProducto' => 'El producto ya existe.'));
             }
-            if (!preg_match('/^[a-zA-Z0-9]+$/', $parametros['nombreProducto'])) {
+            if(!Validador::ValidarAlfanumerico($parametros['nombreProducto'])){
                 $resultado = array_merge($resultado, array('errorNombreProducto' => 'Nombre de producto no valido, debe ser alfanumerico.'));
             }
             if (!preg_match('/^[0-9]+$/', $parametros['precio'])) {
                 $resultado = array_merge($resultado, array('errorPrecio' => 'El precio debe ser mayor o igual a 0.'));
+            }
+        } catch (ErrorException $e) {
+            $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
+            $resultado = array_merge($resultado, array('errorDetalle' => $e->getMessage()));
+        } finally {
+            if (count($resultado) != 0) {
+                $response = new Response();
+                $payload = json_encode($resultado);
+                $response->getBody()->write($payload);
+            } else {
+                $response = $handler->handle($request);
+            }
+            restore_error_handler();
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+    /*if(($request->getUploadedFiles()['imagen'])->getError() != 0)
+                {
+                    $resultado = array_merge($resultado, array('errorImagen' => 'No se paso una imagen.'));
+                }*/
+    public function ValidarImagen(Request $request, RequestHandler $handler): Response
+    {
+        $parametros = $request->getParsedBody();
+        $resultado = array();
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        });
+
+        try {
+            if (($request->getUploadedFiles()['imagen'])->getError() != 0) {
+                $resultado = array_merge($resultado, array('errorImagen' => 'No se paso una imagen.'));
+            }
+            if(GestorConsultas::ExisteId($parametros['idPedido'], 'idPedido', 'pedidos') == false)
+            {
+                $resultado = array_merge($resultado, array('errorIdPedido' => 'El id del pedido no existe.'));
             }
         } catch (ErrorException $e) {
             $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
@@ -150,6 +189,54 @@ class ValidadorMiddleware
             }
             if (strtoupper($parametros['estado']) != 'CON CLIENTE ESPERANDO PEDIDO' && strtoupper($parametros['estado']) != 'CON CLIENTE COMIENDO' && strtoupper($parametros['estado']) != 'CON CLIENTE PAGANDO' && strtoupper($parametros['estado']) != 'CERRADA') {
                 $resultado = array_merge($resultado, array('errorEstadoMesa' => 'Los estados de la mesa deben ser CON CLIENTE ESPERANDO PEDIDO/CON CLIENTE COMIENDOO/CON CLIENTE PAGANDO/CERRADA.'));
+            }
+        } catch (ErrorException $e) {
+            $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
+            $resultado = array_merge($resultado, array('errorDetalle' => $e->getMessage()));
+        } finally {
+            if (count($resultado) != 0) {
+                $response = new Response();
+                $payload = json_encode($resultado);
+                $response->getBody()->write($payload);
+            } else {
+                $response = $handler->handle($request);
+            }
+            restore_error_handler();
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+    public function ValidarDatosMesaModificacion(Request $request, RequestHandler $handler): Response
+    {
+        $parametros = $request->getParsedBody();
+        $resultado = array();
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        });
+
+        try {
+            $tipoEmpleado = $request->getAttribute('tipoEmpleado');
+            if (GestorConsultas::ExisteId($parametros['idMesa'], 'idMesa', 'mesas') == false) {
+                $resultado = array_merge($resultado, array('errorIdMesa' => 'No existe la mesa ingresada.'));
+            }
+            if (isset($parametros['idEmpleado']) && GestorConsultas::ExisteId($parametros['idEmpleado'], 'idEmpleado', 'empleados') == false) {
+                $resultado = array_merge($resultado, array('errorIdEmpleado' => 'No existe el empleado ingresado.'));
+            }
+            if (isset($parametros['nombreCliente']) && Validador::ValidarAlfa($parametros['nombreCliente']) == false) {
+                $resultado = array_merge($resultado, array('errorNombreCliente' => 'Nombre de cliente no valido.'));
+            }
+            if($tipoEmpleado == 'SOCIO')
+            {
+                if(isset($parametros['estado']) && Validador::ValidarArray(strtoupper($parametros['estado']), array('CON CLIENTE ESPERANDO PEDIDO', 'CON CLIENTE COMIENDO', 'CON CLIENTE PAGANDO', 'CERRADA')) == false)
+                {
+                    $resultado = array_merge($resultado, array('errorEstadoMesa' => 'Los estados de la mesa deben ser CON CLIENTE ESPERANDO PEDIDO/CON CLIENTE COMIENDOO/CON CLIENTE PAGANDO/CERRADA.'));
+                }
+            }
+            else
+            {
+                if(isset($parametros['estado']) && Validador::ValidarArray(strtoupper($parametros['estado']), array('CON CLIENTE ESPERANDO PEDIDO', 'CON CLIENTE COMIENDO', 'CON CLIENTE PAGANDO')) == false)
+                {
+                    $resultado = array_merge($resultado, array('errorEstadoMesa' => 'Los estados de la mesa deben ser CON CLIENTE ESPERANDO PEDIDO/CON CLIENTE COMIENDOO/CON CLIENTE PAGANDO.'));
+                }
             }
         } catch (ErrorException $e) {
             $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
@@ -240,6 +327,66 @@ class ValidadorMiddleware
             $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
             $resultado = array_merge($resultado, array('errorDetalle' => $e->getMessage()));
         } finally {
+            if (count($resultado) != 0) {
+                $response = new Response();
+                $payload = json_encode($resultado);
+                $response->getBody()->write($payload);
+            } else {
+                $response = $handler->handle($request);
+            }
+            restore_error_handler();
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+    }
+    public function ValidarDatosEncuestaCarga(Request $request, RequestHandler $handler): Response
+    {
+        $parametros = $request->getParsedBody();
+        $resultado = array();
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        });
+        try {
+
+            $pedido = GestorConsultas::TraerUnPedidoPorIdPedidoCodigoDeMesa($parametros['idPedido'], $parametros['codigo']);
+            if($pedido == false)  
+            {
+                $resultado = array_merge($resultado, array('errorDatos' => 'El codigo de mesa y el id del pedido no coinciden.'));
+            }
+            else
+            {
+                $mesa = GestorConsultas::TraerUnaMesa($pedido->idMesa);
+                if($mesa->estado != 'CERRADA')
+                {
+                    $resultado = array_merge($resultado, array('errorEstado' => 'La mesa aun no esta cerrada.'));
+                }
+                else
+                {
+                    if(GestorConsultas::TraerUnaEncuestaPorIdMesaIdPedido($mesa->idMesa, $parametros['idPedido']) != false)
+                    {
+                        $resultado = array_merge($resultado, array('errorEncuesta' => 'La encuesta para esta mesa y este pedido ya esta completada.'));
+                    }
+                    if(Validador::ValidarArray($parametros['puntuacionMesa'], array(0,1,2,3,4,5,6,7,8,9,10)) == false){
+                        $resultado = array_merge($resultado, array('errorPuntuacionMesa' => 'La puntuacion debe ser del 1 al 10.'));
+                    }
+                    if(Validador::ValidarArray($parametros['puntuacionRestaurante'], array(0,1,2,3,4,5,6,7,8,9,10)) == false){
+                        $resultado = array_merge($resultado, array('errorPuntuacionRestaurante' => 'La puntuacion debe ser del 1 al 10.'));
+                    }
+                    if(Validador::ValidarArray($parametros['puntuacionMozo'], array(0,1,2,3,4,5,6,7,8,9,10)) == false){
+                        $resultado = array_merge($resultado, array('errorPuntuacionMozo' => 'La puntuacion debe ser del 1 al 10.'));
+                    }
+                    if(Validador::ValidarArray($parametros['puntuacionCocinero'], array(0,1,2,3,4,5,6,7,8,9,10)) == false){
+                        $resultado = array_merge($resultado, array('errorPuntuacionCocinero' => 'La puntuacion debe ser del 1 al 10.'));
+                    }
+                    if(Validador::ValidarAlfa($parametros['comentario']) == false || strlen($parametros['comentario']) > 66){
+                        $resultado = array_merge($resultado, array('errorComentario' => 'No se admiten numeros ni caracteres y la longitud maxima es de 66.'));
+                    }
+                }
+            }
+        } catch (ErrorException $e) {
+            $resultado = array_merge($resultado, array('errorParametros' => 'No se pasaron todos los parametros requeridos.'));
+            $resultado = array_merge($resultado, array('errorDetalle' => $e->getMessage()));
+        } finally {
+
             if (count($resultado) != 0) {
                 $response = new Response();
                 $payload = json_encode($resultado);

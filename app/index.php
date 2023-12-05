@@ -16,6 +16,7 @@ require_once '../controladores/EmpleadoControlador.php';
 require_once '../controladores/ProductoControlador.php';
 require_once '../controladores/MesaControlador.php';
 require_once '../controladores/PedidoControlador.php';
+require_once '../controladores/EncuestaControlador.php';
 require_once '../middlewares/AuthMiddleware.php';
 require_once '../middlewares/ValidadorMiddleware.php';
 require_once '../utilidades/AutentificadorJWT.php';
@@ -31,6 +32,7 @@ $app->addBodyParsingMiddleware();
 
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Routes
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
@@ -56,19 +58,31 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->delete('[/]', \ProductoControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarEmpleado');
 $app->group('/mesas', function (RouteCollectorProxy $group) {
-    $group->get('/{idMesa}', \MesaControlador::class . ':TraerUno');
-    $group->get('[/]', \MesaControlador::class . ':TraerTodos');
+    $group->get('/masusada', \MesaControlador::class . ':TraerUno')->add(\AuthMiddleware::class . ':VerificarAdmin');
+    $group->get('/{tipo}', \MesaControlador::class . ':TraerTodos')->add(\AuthMiddleware::class . ':VerificarAdmin');
+    $group->get('[/]', \MesaControlador::class . ':TraerUno');
+    $group->put('/cerrar', \MesaControlador::class . ':ModificarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosMesaModificacion')->add(\AuthMiddleware::class . ':VerificarAdmin');
+    $group->put('/cobrar', \MesaControlador::class . ':ModificarUno')->add(\AuthMiddleware::class . ':VerificarMozo');
+    $group->put('[/]', \MesaControlador::class . ':ModificarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosMesaModificacion')->add(\AuthMiddleware::class . ':VerificarEmpleado');
     $group->post('[/]', \MesaControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosMesaCarga');
     $group->delete('[/]', \MesaControlador::class . ':BorrarUno');
     })->add(\AuthMiddleware::class . ':VerificarEmpleado');
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/descargar', \PedidoControlador::class . ':DescargarListado');
     $group->post('/cargar', \PedidoControlador::class . ':CargarListado');
-    $group->get('/{idPedido}', \PedidoControlador::class . ':TraerUno')->add(\AuthMiddleware::class . ':VerificarEmpleado');
-    $group->get('[/]', \PedidoControlador::class . ':TraerTodos')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->get('/tiempo', \PedidoControlador::class . ':TraerTodosConTiempo')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->post('/cargarImagen', \PedidoControlador::class . ':CargarImagen')->add(\ValidadorMiddleware::class . ':ValidarImagen');
+    $group->get('/todos', \PedidoControlador::class . ':TraerTodos')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->get('/{estado}', \PedidoControlador::class . ':TraerTodos')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->get('[/]', \PedidoControlador::class . ':TraerUno')->add(\AuthMiddleware::class . ':VerificarEmpleado');
     $group->post('[/]', \PedidoControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosPedidoCarga')->add(\AuthMiddleware::class . ':VerificarMozo')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    $group->put('/{entregar}', \PedidoControlador::class . ':ModificarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosPedidoModificacion')->add(\AuthMiddleware::class . ':VerificarMozo');
     $group->put('[/]', \PedidoControlador::class . ':ModificarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosPedidoModificacion')->add(\AuthMiddleware::class . ':VerificarEmpleado');
     $group->delete('[/]', \PedidoControlador::class . ':BorrarUno')->add(\AuthMiddleware::class . ':VerificarEmpleado');
+    });
+$app->group('/encuesta', function (RouteCollectorProxy $group) {
+    $group->post('[/]', \EncuestaControlador::class . ':CargarUno')->add(\ValidadorMiddleware::class . ':ValidarDatosEncuestaCarga');
+    $group->get('[/{tipo}]', \EncuestaControlador::class . ':TraerTodos')->add(\AuthMiddleware::class . ':VerificarAdmin');
     });
 
 $app->run();

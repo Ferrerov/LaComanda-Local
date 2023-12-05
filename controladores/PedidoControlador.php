@@ -2,7 +2,7 @@
 
 require_once '../entidades/Pedido.php';
 require_once '../interfaces/IApiUsable.php';
-
+require_once '../utilidades/GestorDeArchivos.php';
 class PedidoControlador implements IApiUsable
 {
     public function TraerUno($request, $response, $args)
@@ -47,23 +47,29 @@ class PedidoControlador implements IApiUsable
         $idUsuario = $request->getAttribute('idUsuario');
         $pedidoActualizado = 0;
 
-        $pedido = GestorConsultas::TraerUnPedidoPorIdPedidoIdUsuario($parametros['idPedido'], $idUsuario);
+        if(!isset($args['entregar']))$pedido = GestorConsultas::TraerUnPedidoPorIdPedidoIdUsuario($parametros['idPedido'], $idUsuario);
+        else $pedido = GestorConsultas::TraerUnPedido($parametros['idPedido']);
         if($pedido != null)
         {
             switch ($tipoModificacion)
             {
                 case 'cambioEstado':
-                    $pedido->estado = $parametros['estado'];
+                    $pedido->estado = strtoupper($parametros['estado']);
+                    if($pedido->estado == 'LISTO PARA SERVIR') $pedido->tiempoFin = (new DateTime('now'))->format('Y-m-d H:i:s');
                     break;
                 case 'cambioEstadoTiempo':
-                    $pedido->estado = $parametros['estado'];
+                    $pedido->estado = strtoupper($parametros['estado']);
                     $pedido->tiempoEstimado = $parametros['tiempoEstimado'];
+                    if($pedido->estado == 'EN PREPARACION') $pedido->tiempoInicio = (new DateTime('now'))->format('Y-m-d H:i:s');
                     break;
                 case 'cambioDatos':
                     $pedido->idMesa = $parametros['idMesa'];
                     $pedido->idProducto = $parametros['idProducto'];
                     $pedido->estado = $parametros['estado'];
                     $pedido->precioVenta = $parametros['precioVenta'];
+                    break;
+                default:
+                    $pedido->estado = $parametros['estado'];
                     break;
             }
             $pedidoActualizado = GestorConsultas::ActualizarUnPedido($pedido);
@@ -134,14 +140,30 @@ class PedidoControlador implements IApiUsable
     }
     public function TraerTodos($request, $response, $args)
     {
+        $tipo = strtolower($args['estado']);
         $idUsuario = $request->getAttribute('idUsuario');
-        if((GestorConsultas::TraerUnUsuario($idUsuario)->tipo == 'SOCIO'))
+        $tipoEmpleado = $request->getAttribute('tipoEmpleado');
+        $esSocio = GestorConsultas::TraerUnUsuario($idUsuario)->tipo == 'SOCIO';
+        $esMozo = $tipoEmpleado == 'MOZO';
+
+        switch ($tipo)
         {
-            $pedidos = GestorConsultas::TraerTodosLosPedidos();
-        }
-        else
-        {
-            $pedidos = GestorConsultas::TraerTodosLosPedidosPorIdUsuario($idUsuario);
+            case 'pendientes':
+                if($esSocio) $pedidos = GestorConsultas::TraerTodosLosPedidosPorEstado('PENDIENTE');
+                else $pedidos = GestorConsultas::TraerTodosLosPedidosPorIdUsuarioYEstado($idUsuario, 'PENDIENTE');
+                break;
+            case 'enpreparacion':
+                if($esSocio) $pedidos = GestorConsultas::TraerTodosLosPedidosPorEstado('EN PREPARACION');
+                else $pedidos = GestorConsultas::TraerTodosLosPedidosPorIdUsuarioYEstado($idUsuario, 'EN PREPARACION');
+                break;
+            case 'listosparaservir':
+                if($esSocio || $esMozo) $pedidos = GestorConsultas::TraerTodosLosPedidosPorEstado('LISTO PARA SERVIR');
+                else $pedidos = GestorConsultas::TraerTodosLosPedidosPorIdUsuarioYEstado($idUsuario, 'LISTO PARA SERVIR');
+                break;
+            default:
+                if($esSocio) $pedidos = GestorConsultas::TraerTodosLosPedidos();
+                else $pedidos = GestorConsultas::TraerTodosLosPedidosPorIdUsuario($idUsuario);
+            break;
         }
         if($pedidos != null)
         {
@@ -150,6 +172,53 @@ class PedidoControlador implements IApiUsable
         else
         {
             $payload = json_encode(array('mensaje' => 'No se encontraron pedidos.'));
+        }
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerTodosConTiempo($request, $response, $args)
+    {
+        $idUsuario = $request->getAttribute('idUsuario');
+        if((GestorConsultas::TraerUnUsuario($idUsuario)->tipo == 'SOCIO'))
+        {
+            $pedidos = GestorConsultas::TraerTiempoDeTodosLosPedidos();
+        }
+        else
+        {
+            $pedidos = GestorConsultas::TraerTodosLosTiemposDePedidosPorIdUsuario($idUsuario);
+        }
+        if($pedidos != null)
+        {
+            $pedidosArray = array();
+            foreach($pedidos as $unPedido)
+            {
+                array_push($pedidosArray, array('idPedido' => $unPedido->idPedido, 'tiempoEstimado' => $unPedido->tiempoEstimado));
+            }
+            $payload = json_encode($pedidosArray);
+        }
+        else
+        {
+            $payload = json_encode(array('mensaje' => 'No se encontraron pedidos.'));
+        }
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function CargarImagen($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $pedido = GestorConsultas::TraerUnPedido($parametros['idPedido']);
+        if($pedido != null)
+        {
+            GestorDeArchivos::VerificarDirectorios('../ImagenesClientes/');
+            $request->getUploadedFiles()['imagen']->moveTo('../ImagenesClientes/' . $parametros['idPedido'] . '.jpg');
+            $payload = array('mensaje' => 'Imagen cargada correctamente');
+            $payload = json_encode($payload);
+        }
+        else
+        {
+            $payload = json_encode(array('mensaje' => 'No se pudo cargar la imagen.'));
         }
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

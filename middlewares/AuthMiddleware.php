@@ -17,6 +17,7 @@ class AuthMiddleware
         {
             if($datos->tipoUsuario == 'SOCIO')
             {
+                $request = $request->withAttribute('tipoEmpleado', $datos->tipoEmpleado);
                 $response = $handler->handle($request);
             }
             else
@@ -41,6 +42,7 @@ class AuthMiddleware
             if($datos->tipoUsuario == 'EMPLEADO' || $datos->tipoUsuario == 'SOCIO')
             {
                 $request = $request->withAttribute('idUsuario', $datos->idUsuario);
+                $request = $request->withAttribute('tipoEmpleado', $datos->tipoEmpleado);
                 $response = $handler->handle($request);
             }
             else

@@ -8,8 +8,16 @@ class MesaControlador implements IApiUsable
 {
     public function TraerUno($request, $response, $args)
     {
-        $idMesa = $args['idMesa'];
-        $mesa = GestorConsultas::TraerUnaMesa($idMesa);
+        $parametros = $request->getQueryParams();
+
+        if(!isset($parametros['idMesa']))
+        {
+            $mesa = GestorConsultas::TraerMesaMasUsada();
+            if($mesa != null)
+            {
+                $payload = json_encode(array_merge(array('mensaje' => 'Mesa mas usada.'),(array)$mesa));
+            }
+        }else $mesa = GestorConsultas::TraerUnaMesa($parametros['idMesa']);
         if($mesa != null)
         {
             $payload = json_encode($mesa);
@@ -44,7 +52,30 @@ class MesaControlador implements IApiUsable
     }
     public function ModificarUno($request, $response, $args)
     {
+        $parametros = $request->getParsedBody();
+        $mesaActualizada = 0;
 
+        $mesa = GestorConsultas::TraerUnaMesa($parametros['idMesa']);
+        if($mesa != null)
+        {
+            if(isset($parametros['idEmpleado'])) $mesa->idEmpleado = $parametros['idEmpleado'];
+            if(isset($parametros['nombreCliente'])) $mesa->nombreCliente = $parametros['nombreCliente'];
+            if(isset($parametros['estado'])) $mesa->estado = $parametros['estado'];
+
+            $mesaActualizada = GestorConsultas::ActualizarUnaMesa($mesa);
+        }
+
+        if($mesaActualizada > 0)
+        {
+            $payload = array_merge(array('mensaje' => 'Mesa actualizada correctamente'),(array)$mesa);
+            $payload = json_encode($payload);
+        }
+        else
+        {
+            $payload = json_encode(array('mensaje' => 'No se pudo actualizar la mesa.'));
+        }   
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
     public function BorrarUno($request, $response, $args)
     {
@@ -52,7 +83,19 @@ class MesaControlador implements IApiUsable
     }
     public function TraerTodos($request, $response, $args)
     {
-        $mesas = GestorConsultas::TraerTodasLasMesas();
+        if(isset($args['tipo']))
+        {
+            $mesas = GestorConsultas::TraerTodasLasMesasConEstado();
+            if($mesas != null)
+            {
+                $mesasArray = array();
+                foreach($mesas as $unaMesa)
+                {
+                    array_push($mesasArray, array('idMesa' => $unaMesa->idMesa, 'estado' => $unaMesa->estado));
+                }
+                $mesas = $mesasArray;
+            }
+        }else $mesas = GestorConsultas::TraerTodasLasMesas();
         if($mesas != null)
         {
             $payload = json_encode($mesas);

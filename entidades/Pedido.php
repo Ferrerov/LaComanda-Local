@@ -21,7 +21,7 @@ class Pedido
         $pedido->estado = strtoupper($estado); 
         $pedido->precioVenta = $precioVenta;
         $pedido->tiempoEstimado = $tiempoEstimado;
-        $pedido->tiempoInicio =  (new DateTime('now'))->format('Y-m-d H:i:s');
+        $pedido->tiempoInicio =  null;
         $pedido->tiempoFin = $tiempoFin;
 
         return $pedido;
