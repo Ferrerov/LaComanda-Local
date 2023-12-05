@@ -1,0 +1,1623 @@
+{
+	"info": {
+		"_postman_id": "ae112e74-6534-41fc-986d-0e7095175e30",
+		"name": "Paso a paso la comanda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21180552"
+	},
+	"item": [
+		{
+			"name": "0 - LoginUsuarioSocio",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "usuario",
+							"value": "socio01",
+							"type": "text"
+						},
+						{
+							"key": "contraseña",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "alias",
+							"value": "Estas",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.1 - CargarUnProducto (Milanesa)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDEwNDEwNzIsImV4cCI6NjU1Nzc1NTc0NCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.lne4A4sz8ChCVf6DVPAlGok2Omu4lPE110GzyOSzNEw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idSector",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "nombreProducto",
+							"value": "Milanesa a caballo",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "2300",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.3 - CargarUnProducto (Hamburgesa)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDEwNDEwNzIsImV4cCI6NjU1Nzc1NTc0NCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.lne4A4sz8ChCVf6DVPAlGok2Omu4lPE110GzyOSzNEw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idSector",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "nombreProducto",
+							"value": "Hamburgesa de garbanzo",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "2300",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.4 - CargarUnProducto (Corona)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDEwNDEwNzIsImV4cCI6NjU1Nzc1NTc0NCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.lne4A4sz8ChCVf6DVPAlGok2Omu4lPE110GzyOSzNEw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idSector",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "nombreProducto",
+							"value": "CORONA",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "2000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "0.5 - CargarUnProducto (Daikiri)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDEwNDEwNzIsImV4cCI6NjU1Nzc1NTc0NCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.lne4A4sz8ChCVf6DVPAlGok2Omu4lPE110GzyOSzNEw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idSector",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "nombreProducto",
+							"value": "DAIKIRI",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "3000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.1 - CargarUnPedido (Milanesa))",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDExMjkwMzksImV4cCI6NjU1NzkzMTY3OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.PoPilmkHNo-mlI8mS1PtFKlUdVhiEG08PNUJf_gfMyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "idProducto",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "En preparacion",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.2 - CargarUnPedido (Hamburgesa)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDExMjkwMzksImV4cCI6NjU1NzkzMTY3OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.PoPilmkHNo-mlI8mS1PtFKlUdVhiEG08PNUJf_gfMyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "idProducto",
+							"value": "31",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "PENDIENTE",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.2 - CargarUnPedido (Hamburgesa) Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDExMjkwMzksImV4cCI6NjU1NzkzMTY3OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.PoPilmkHNo-mlI8mS1PtFKlUdVhiEG08PNUJf_gfMyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "idProducto",
+							"value": "31",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "PENDIENTE",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.3 - CargarUnPedido (Corona)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDExMjkwMzksImV4cCI6NjU1NzkzMTY3OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.PoPilmkHNo-mlI8mS1PtFKlUdVhiEG08PNUJf_gfMyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "idProducto",
+							"value": "32",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "PENDIENTE",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.4 - CargarUnPedido (Daikiri)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDExMjkwMzksImV4cCI6NjU1NzkzMTY3OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.PoPilmkHNo-mlI8mS1PtFKlUdVhiEG08PNUJf_gfMyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "idProducto",
+							"value": "33",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "PENDIENTE",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2.1 -RelacionarFotoConPedido (Milanesa)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDExMjkwMzksImV4cCI6NjU1NzkzMTY3OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.PoPilmkHNo-mlI8mS1PtFKlUdVhiEG08PNUJf_gfMyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idPedido",
+							"value": "53",
+							"type": "text"
+						},
+						{
+							"key": "imagen",
+							"type": "file",
+							"src": "/C:/Users/valen/Downloads/Diagrama en blanco.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/cargarImagen",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"cargarImagen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.1 - TraerPedidosPendientes (Cervecero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjA3OTksImV4cCI6NjU1OTExNTE5OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MCwibm9tYnJlVXN1YXJpbyI6ImJhcnRlbmRlcjAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJCQVJURU5ERVIifSwiYXBwIjoiVGVzdCBKV1QifQ.9Oip5QQLPKdjddtSTQVJcvXrVNDCiU5YCMrY2n9TI8A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/pendientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"pendientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.2 - TraerPedidosPendientes (Bartender)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjAxMjAsImV4cCI6NjU1OTExMzg0MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MSwibm9tYnJlVXN1YXJpbyI6ImNlcnZlY2VybzAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJDRVJWRUNFUk8ifSwiYXBwIjoiVGVzdCBKV1QifQ.eyyQKxWte_Yu9tQAsOA69d8iE-QQmGk1au3aHyENwnE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/pendientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"pendientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.3 - TraerPedidosPendientes (Cocinero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjA4NzksImV4cCI6NjU1OTExNTM1OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Miwibm9tYnJlVXN1YXJpbyI6ImNvY2luZXJvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJFTVBMRUFETyIsInRpcG9FbXBsZWFkbyI6IkNPQ0lORVJPIn0sImFwcCI6IlRlc3QgSldUIn0.7-0gBgueWeQd8yjdqLiYtexNsk1fGfdFx-B4j9C5r9c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/pendientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"pendientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.4 - CambiarEstado (Cervecero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjEzNzksImV4cCI6NjU1OTExNjM1OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MSwibm9tYnJlVXN1YXJpbyI6ImNlcnZlY2VybzAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJDRVJWRUNFUk8ifSwiYXBwIjoiVGVzdCBKV1QifQ.EHBZnyR9UqdRwOsvHCKi5LbJEGqOoWFmzaoDsDTQ8no",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "56",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "En preparacion",
+							"type": "text"
+						},
+						{
+							"key": "tiempoEstimado",
+							"value": "00:45:00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.5 - CambiarEstado (Bartender)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3Nzg2NjQsImV4cCI6NjU1OTIzMDkyOCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MCwibm9tYnJlVXN1YXJpbyI6ImJhcnRlbmRlcjAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJCQVJURU5ERVIifSwiYXBwIjoiVGVzdCBKV1QifQ.tRwBZAas4mXojQpf3cltBsFEt56FhgzTvvJXYguOeLE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "57",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "En preparacion",
+							"type": "text"
+						},
+						{
+							"key": "timepoEstimado",
+							"value": "00:30:00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.6 - CambiarEstado (Cocinero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3Nzg3NTIsImV4cCI6NjU1OTIzMTEwNCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Miwibm9tYnJlVXN1YXJpbyI6ImNvY2luZXJvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJFTVBMRUFETyIsInRpcG9FbXBsZWFkbyI6IkNPQ0lORVJPIn0sImFwcCI6IlRlc3QgSldUIn0.QyclCOPTdsvNIviNp0oYF2UgojQSKpsTqTvLC4FCStE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "53",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "En preparacion",
+							"type": "text"
+						},
+						{
+							"key": "tiempoEstimado",
+							"value": "01:00:00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 - ConsultaPedido (Cliente)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/clientes?idPedido=53&codigoMesa=9NS2q",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"clientes"
+					],
+					"query": [
+						{
+							"key": "idPedido",
+							"value": "53"
+						},
+						{
+							"key": "codigoMesa",
+							"value": "9NS2q"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 - ConsultaPedidos (Socio)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDEwNDE2NjEsImV4cCI6NjU1Nzc1NjkyMiwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.oTiED7QnceUn5r9v9WtNXBxstguGXQ13TlmevFwA_kI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/tiempo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"tiempo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.1 - TraerPedidosEnPreparacion (Cervecero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjA3OTksImV4cCI6NjU1OTExNTE5OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MCwibm9tYnJlVXN1YXJpbyI6ImJhcnRlbmRlcjAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJCQVJURU5ERVIifSwiYXBwIjoiVGVzdCBKV1QifQ.9Oip5QQLPKdjddtSTQVJcvXrVNDCiU5YCMrY2n9TI8A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/enpreparacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"enpreparacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.2 - TraerPedidosEnPreparacion (Bartender)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjAxMjAsImV4cCI6NjU1OTExMzg0MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MSwibm9tYnJlVXN1YXJpbyI6ImNlcnZlY2VybzAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJDRVJWRUNFUk8ifSwiYXBwIjoiVGVzdCBKV1QifQ.eyyQKxWte_Yu9tQAsOA69d8iE-QQmGk1au3aHyENwnE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/enpreparacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"enpreparacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.3 - TraerPedidosEnPreparacion (Cocinero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjA4NzksImV4cCI6NjU1OTExNTM1OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Miwibm9tYnJlVXN1YXJpbyI6ImNvY2luZXJvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJFTVBMRUFETyIsInRpcG9FbXBsZWFkbyI6IkNPQ0lORVJPIn0sImFwcCI6IlRlc3QgSldUIn0.7-0gBgueWeQd8yjdqLiYtexNsk1fGfdFx-B4j9C5r9c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/enpreparacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"enpreparacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.4 - CambiarEstado (Cervecero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3MjEzNzksImV4cCI6NjU1OTExNjM1OCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MSwibm9tYnJlVXN1YXJpbyI6ImNlcnZlY2VybzAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJDRVJWRUNFUk8ifSwiYXBwIjoiVGVzdCBKV1QifQ.EHBZnyR9UqdRwOsvHCKi5LbJEGqOoWFmzaoDsDTQ8no",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "56",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Listo para servir",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.5 - CambiarEstado (Bartender)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3Nzg2NjQsImV4cCI6NjU1OTIzMDkyOCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0MCwibm9tYnJlVXN1YXJpbyI6ImJhcnRlbmRlcjAxIiwiY29udHJhc2VcdTAwZjFhIjoiMTIzNCIsInRpcG9Vc3VhcmlvIjoiRU1QTEVBRE8iLCJ0aXBvRW1wbGVhZG8iOiJCQVJURU5ERVIifSwiYXBwIjoiVGVzdCBKV1QifQ.tRwBZAas4mXojQpf3cltBsFEt56FhgzTvvJXYguOeLE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "57",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Listo para servir",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.6 - CambiarEstado (Cocinero)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3Nzg3NTIsImV4cCI6NjU1OTIzMTEwNCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Miwibm9tYnJlVXN1YXJpbyI6ImNvY2luZXJvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJFTVBMRUFETyIsInRpcG9FbXBsZWFkbyI6IkNPQ0lORVJPIn0sImFwcCI6IlRlc3QgSldUIn0.QyclCOPTdsvNIviNp0oYF2UgojQSKpsTqTvLC4FCStE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "53",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Listo para servir",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7 - TraerPedidosListosParaServir (Mozo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE3OTAxMTUsImV4cCI6NjU1OTI1MzgzMCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.WLtkeJj6qXORRwY9ieEc-LcqSVhWL_V0Qq9zReaZvAg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/listosparaservir",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"listosparaservir"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7.2 - CambiarEstado (Mozo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDk4ODEsImV4cCI6NjU1OTI5MzM2MiwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.V4aazu2wHQzwAQzAJupfJ0k0GzCgJDgvdbP6rOZQkV8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "53",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Entregado",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/entregar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"entregar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7.3 - CambiarEstado (Mozo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDk4ODEsImV4cCI6NjU1OTI5MzM2MiwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.V4aazu2wHQzwAQzAJupfJ0k0GzCgJDgvdbP6rOZQkV8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "54",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Entregado",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/entregar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"entregar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7.4 - CambiarEstado (Mozo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDk4ODEsImV4cCI6NjU1OTI5MzM2MiwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.V4aazu2wHQzwAQzAJupfJ0k0GzCgJDgvdbP6rOZQkV8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "55",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Entregado",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/entregar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"entregar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7.5 - CambiarEstado (Mozo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDk4ODEsImV4cCI6NjU1OTI5MzM2MiwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjo0Mywibm9tYnJlVXN1YXJpbyI6Im1vem8wMSIsImNvbnRyYXNlXHUwMGYxYSI6IjEyMzQiLCJ0aXBvVXN1YXJpbyI6IkVNUExFQURPIiwidGlwb0VtcGxlYWRvIjoiTU9aTyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.V4aazu2wHQzwAQzAJupfJ0k0GzCgJDgvdbP6rOZQkV8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idPedido",
+							"value": "56",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Entregado",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/pedidos/entregar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"pedidos",
+						"entregar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8 - TraerMesasConEstado (Socio)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDIyMzcsImV4cCI6NjU1OTI3ODA3NCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.ahdCjP81aAHVHNYJ1XF4QBN60_kqrV7T9Chs2RcCmH4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/mesas/estados",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"mesas",
+						"estados"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9 -  CobrarCuenta (Mozo)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDQxMjUsImV4cCI6NjU1OTI4MTg1MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.XW0DyXmOn3negf_HWBCGS9N-8MU1fYpK1mldHbbZugE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "CON CLIENTE PAGANDO",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/mesas/cobrar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"mesas",
+						"cobrar"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10 - CerrarMesa (Socio)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDQxMjUsImV4cCI6NjU1OTI4MTg1MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.XW0DyXmOn3negf_HWBCGS9N-8MU1fYpK1mldHbbZugE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idMesa",
+							"value": "6",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "CERRADA",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/mesas/cerrar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"mesas",
+						"cerrar"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11 - CargarEncuesta (Cliente)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDQxMjUsImV4cCI6NjU1OTI4MTg1MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.XW0DyXmOn3negf_HWBCGS9N-8MU1fYpK1mldHbbZugE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "codigo",
+							"value": "9NS2q",
+							"type": "text"
+						},
+						{
+							"key": "idPedido",
+							"value": "54",
+							"type": "text"
+						},
+						{
+							"key": "puntuacionMesa",
+							"value": "9",
+							"type": "text"
+						},
+						{
+							"key": "puntuacionRestaurante",
+							"value": "9",
+							"type": "text"
+						},
+						{
+							"key": "puntuacionMozo",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "puntuacionCocinero",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "comentario",
+							"value": "Muy rico",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/encuesta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"encuesta"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12 - TraerMejoresEncuestas (Socio)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDQxMjUsImV4cCI6NjU1OTI4MTg1MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.XW0DyXmOn3negf_HWBCGS9N-8MU1fYpK1mldHbbZugE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idMesa",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "CERRADA",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/encuesta/mejores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"encuesta",
+						"mejores"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13 - TraerMesaMasUsada (Socio)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE4MDQxMjUsImV4cCI6NjU1OTI4MTg1MCwiYXVkIjoiNjYzYjdmZTlhODkwZGM2ZTU2NDNmOTgyNWVkMGQ0NGY2MTU3ODc2YSIsImRhdGEiOnsiaWRVc3VhcmlvIjozNiwibm9tYnJlVXN1YXJpbyI6InNvY2lvMDEiLCJjb250cmFzZVx1MDBmMWEiOiIxMjM0IiwidGlwb1VzdWFyaW8iOiJTT0NJTyIsInRpcG9FbXBsZWFkbyI6IlNPQ0lPIn0sImFwcCI6IlRlc3QgSldUIn0.XW0DyXmOn3negf_HWBCGS9N-8MU1fYpK1mldHbbZugE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idMesa",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "CERRADA",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/slim-LaComanda/app/mesas/masusada",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"slim-LaComanda",
+						"app",
+						"mesas",
+						"masusada"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
